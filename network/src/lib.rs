@@ -22,6 +22,7 @@ mod identify_service;
 mod memory_peer_store;
 mod network;
 mod network_config;
+mod network_group;
 mod network_service;
 mod outgoing_service;
 mod peer_store;
@@ -38,7 +39,9 @@ pub use self::network_config::NetworkConfig;
 pub use self::network_service::NetworkService;
 pub use ckb_protocol::{CKBProtocol, CKBProtocols};
 pub use ckb_protocol_handler::{CKBProtocolContext, CKBProtocolHandler, Severity};
-pub use libp2p::{core::Endpoint, multiaddr::AddrComponent, Multiaddr, PeerId};
+pub use libp2p::{
+    core::Endpoint, multiaddr::AddrComponent, multiaddr::ToMultiaddr, Multiaddr, PeerId,
+};
 
 pub type TimerToken = usize;
 pub type ProtocolId = [u8; 3];

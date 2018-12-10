@@ -5,6 +5,7 @@ use fnv::FnvHashMap;
 use futures::sync::mpsc::UnboundedSender;
 use libp2p::core::{Endpoint, Multiaddr, UniqueConnec};
 use libp2p::ping;
+use network_group::{Group, NetworkGroup};
 use peer_store::PeerStore;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Arc;
@@ -101,7 +102,7 @@ impl PeerConnection {
     pub fn new(connected_addr: Multiaddr, endpoint_role: Endpoint) -> Self {
         PeerConnection {
             endpoint_role,
-            connected_addr: connected_addr,
+            connected_addr,
             pinger_loader: UniqueConnec::empty(),
             identify_info: None,
             ckb_protocols: Vec::with_capacity(1),
@@ -119,6 +120,12 @@ impl PeerConnection {
     #[inline]
     pub fn is_incoming(&self) -> bool {
         !self.is_outgoing()
+    }
+
+    #[allow(dead_code)]
+    #[inline]
+    fn network_group(&self) -> Group {
+        self.connected_addr.network_group()
     }
 }
 
