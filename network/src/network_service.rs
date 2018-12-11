@@ -6,10 +6,8 @@ use ckb_protocol_handler::{CKBProtocolContext, DefaultCKBProtocolContext};
 use ckb_util::RwLock;
 use futures::future::Future;
 use futures::sync::oneshot;
-use libp2p::core::PeerId;
 use network::Network;
 use peer_store::PeerStore;
-use peers_registry::PeerConnection;
 use std::boxed::Box;
 use std::io::{Error as IoError, ErrorKind as IoErrorKind};
 use std::sync::Arc;
@@ -38,11 +36,6 @@ impl NetworkService {
     #[inline]
     pub(crate) fn peer_store<'a>(&'a self) -> &'a RwLock<Box<PeerStore>> {
         &self.network.peer_store()
-    }
-
-    #[inline]
-    pub fn add_peer(&self, peer_id: PeerId, peer: PeerConnection) {
-        self.network.add_peer(peer_id, peer);
     }
 
     pub fn with_protocol_context<F, T>(&self, protocol_id: ProtocolId, f: F) -> Option<T>
